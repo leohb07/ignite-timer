@@ -27,6 +27,7 @@ interface CyclesContextProps {
   amountSecondsPassed: number
   markCurrentCyclesAsFinished: () => void
   setSecondsPassed: (data: number) => void
+  setActiveCycleNullFinished: () => void
 }
 
 export const CyclesContext = createContext({} as CyclesContextProps)
@@ -35,7 +36,7 @@ const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Inform a tarefa'),
   minutesAmount: zod
     .number()
-    .min(5, 'O ciclo precisa ser de no mínimo 5')
+    .min(1, 'O ciclo precisa ser de no mínimo 5')
     .max(60, 'O ciclo precisa ser de no máximo 60'),
 })
 
@@ -60,6 +61,10 @@ export function Home() {
 
   function setSecondsPassed(data: number) {
     setAmountSecondsPassed(data)
+  }
+
+  function setActiveCycleNullFinished() {
+    setActiveCycleId(null)
   }
 
   function markCurrentCyclesAsFinished() {
@@ -117,6 +122,7 @@ export function Home() {
             markCurrentCyclesAsFinished,
             amountSecondsPassed,
             setSecondsPassed,
+            setActiveCycleNullFinished,
           }}
         >
           <FormProvider {...newCycleForm}>
